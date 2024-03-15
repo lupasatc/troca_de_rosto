@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-
+  
   <meta charset="utf-8">
-  <title>Beyond Reality Face - BRFv4 - HTML5/Javascript - minimal webcam example</title>
+  <title>Beyond Reality Face - BRFv4 - HTML5/Javascript - smile screenshot</title>
+
+  <!--Essa tela tira uma screenshot quando sorri -->
 
   <style>
     html, body { width: 100%; height: 100%; background-color: #001c29; margin: 0; padding: 0; overflow: hidden; }
@@ -71,11 +73,11 @@
 
 <body>
     <div class="marca">
-        <img src="img/logos.png" alt="" height="120px";>
+        <img src="img/satcexperience.png" alt="" height="120px";>
     </div>
   
   <div id="faceswap" class="button faceswap">
-      <a href="http://localhost/criciumadev3/index.html"><img id="icon-swap" src="img/faceswap.png" alt="" height="40px"></a>
+      <a href="index.html"><img id="icon-swap" src="img/faceswap.png" alt="" height="40px"></a>
   </div>
 <div id="smile-prcnt" class="smile-prcnt">
   <h2 id="prcnt"></h2>
@@ -97,21 +99,21 @@
   // Here we overwrite it. The initialization code for BRFv4 should always be similar,
   // that's why we put it into its own file.
   
-    var p0				= new Point(0,0);
-    var p1				= new Point(0,0);
-    var smile = false;
-    var prcnt = document.getElementById('prcnt');
-    var smileLabel = document.getElementById("smile-prcnt");
-    var swapButton = document.getElementById("faceswap");
+    let p0				= new Point(0,0);
+    let p1				= new Point(0,0);
+    let smile = false;
+    let prcnt = document.getElementById('prcnt');
+    let smileLabel = document.getElementById("smile-prcnt");
+    let swapButton = document.getElementById("faceswap");
   handleTrackingResults = function(
     brfv4,          // namespace
     faces,          // tracked faces
     imageDataCtx    // canvas context to draw into
   ) {
 
-    for(var i = 0; i < faces.length; i++) {
+    for(let i = 0; i < faces.length; i++) {
 
-      var face = faces[i];
+      let face = faces[i];
 
       if(face.state === brfv4.BRFState.FACE_TRACKING_START ||
         face.state === brfv4.BRFState.FACE_TRACKING) {
@@ -121,13 +123,13 @@
         setPoint(face.vertices, 48, p0); // mouth corner left
 				setPoint(face.vertices, 54, p1); // mouth corner right
 
-				var mouthWidth = calcDistance(p0, p1);
+				let mouthWidth = calcDistance(p0, p1);
 
 				setPoint(face.vertices, 39, p1); // left eye inner corner
 				setPoint(face.vertices, 42, p0); // right eye outer corner
 
-				var eyeDist = calcDistance(p0, p1);
-				var smileFactor = mouthWidth / eyeDist;
+				let eyeDist = calcDistance(p0, p1);
+				let smileFactor = mouthWidth / eyeDist;
 
 				smileFactor -= 1.40; // 1.40 - neutral, 1.70 smiling
 
@@ -153,7 +155,7 @@
 
         imageDataCtx.strokeStyle = '#00000000';
 
-        for(var k = 0; k < face.vertices.length; k += 2) {
+        for(let k = 0; k < face.vertices.length; k += 2) {
           //console.log(face.vertices.length);
           imageDataCtx.beginPath();
           imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
@@ -177,9 +179,9 @@
 
  function render(element){
      html2canvas(element,{ width:1920, height:1080, windowWidth:1920, windowHeight:1080, scale:0.5}).then(canvas => {
-	 var url = canvas.toDataURL("image/png");
-     var img = url;
-     var a  = document.createElement('a');
+	 let url = canvas.toDataURL("image/png");
+     let img = url;
+     let a  = document.createElement('a');
 	    a.href = img;
      a.download = 'image.png';
      a.click()
@@ -210,10 +212,10 @@
       s = ww / imageData.width;
     }
 
-    var iw = imageData.width * s;
-    var ih = imageData.height * s;
-    var ix = (ww - iw) * 0.5;
-    var iy = (wh - ih) * 0.5;
+    let iw = imageData.width * s;
+    let ih = imageData.height * s;
+    let ix = (ww - iw) * 0.5;
+    let iy = (wh - ih) * 0.5;
 
     imageData.style.transformOrigin = "0% 0%";
     imageData.style.transform = "matrix("+s+", 0, 0, "+s+", "+ix+", "+iy+")";
